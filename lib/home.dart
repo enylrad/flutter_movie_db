@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_movie_db/media_list.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -18,6 +19,9 @@ class _HomeState extends State<Home> {
             onPressed: () {},
           )
         ],
+      ),
+      body: PageView(
+        children: <Widget>[MediaList()],
       ),
       drawer: _getDrawer(context),
       bottomNavigationBar: BottomNavigationBar(
