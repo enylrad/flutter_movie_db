@@ -3,7 +3,9 @@ import 'package:flutter_movie_db/src/screens/home.dart';
 
 void main() {
   runApp(MaterialApp(
-      home: SafeArea(
-    child: Home(),
-  )));
+    home: SafeArea(
+      child: Home(),
+    ),
+    theme: new ThemeData.dark(),
+  ));
 }
