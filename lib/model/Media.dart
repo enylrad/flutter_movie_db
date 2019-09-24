@@ -1,3 +1,4 @@
+import 'package:flutter_movie_db/common/MediaProvider.dart';
 import 'package:flutter_movie_db/common/Util.dart';
 
 class Media {
@@ -16,7 +17,7 @@ class Media {
 
   String getGenres() => getGenreValues(genreIds);
 
-  int getRealeaseYear() {
+  int getReleaseYear() {
     if (releaseDate == null || releaseDate == "") {
       return 0;
     }
@@ -26,17 +27,18 @@ class Media {
         .year;
   }
 
-  factory Media(Map jsonMap) {
-    return Media.deserialize(jsonMap);
+  factory Media(Map jsonMap, MediaType mediaType) {
+    return Media.deserialize(jsonMap, mediaType);
   }
 
-  Media.deserialize(Map json)
+  Media.deserialize(Map json, MediaType mediaType)
       : id = json["id"].toInt(),
         voteAverage = json["vote_average"].toDouble(),
-        title = json["title"],
+        title = json[mediaType == MediaType.movie ? "title" : "name"],
         posterPath = json["poster_path"] ?? "",
         backdropPath = json["backdrop_path"] ?? "",
         overview = json["overview"],
-        releaseDate = json["release_date"],
+        releaseDate = json[
+        mediaType == MediaType.movie ? "release_date" : "first_air_date"],
         genreIds = json["genre_ids"].toList();
 }

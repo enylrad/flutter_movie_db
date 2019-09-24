@@ -1,10 +1,14 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_movie_db/common/HttpHandler.dart';
+import 'package:flutter_movie_db/common/MediaProvider.dart';
 import 'package:flutter_movie_db/media_list_item.dart';
 
 import 'model/Media.dart';
 
 class MediaList extends StatefulWidget {
+  final MediaProvider provider;
+
+  MediaList(this.provider);
+
   @override
   _MediaListState createState() => _MediaListState();
 }
@@ -15,13 +19,22 @@ class _MediaListState extends State<MediaList> {
   @override
   void initState() {
     super.initState();
-    loadMovies();
+    loadMedia();
   }
 
-  void loadMovies() async {
-    var movies = await HttpHandler().fetchMovies();
+  @override
+  void didUpdateWidget(MediaList oldWidget) {
+    if (oldWidget.provider.runtimeType != widget.provider.runtimeType) {
+      _media = List();
+      loadMedia();
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  void loadMedia() async {
+    var medias = await widget.provider.fetchMedia();
     setState(() {
-      _media.addAll(movies);
+      _media.addAll(medias);
     });
   }
 

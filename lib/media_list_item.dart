@@ -58,7 +58,7 @@ class MediaListItem extends StatelessWidget {
           ),
           Row(
             children: <Widget>[
-              Text(media.getRealeaseYear().toString()),
+              Text(media.getReleaseYear().toString()),
               Container(width: 4.0),
               Icon(
                 Icons.date_range,
