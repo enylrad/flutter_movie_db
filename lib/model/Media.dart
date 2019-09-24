@@ -12,10 +12,23 @@ class Media {
 
   String getPosterUrl() => getMediumPictureUrl(posterPath);
 
+  String getBackDropUrl() => getLargePictureUrl(posterPath);
+
+  String getGenres() => getGenreValues(genreIds);
+
+  int getRealeaseYear() {
+    if (releaseDate == null || releaseDate == "") {
+      return 0;
+    }
+
+    return DateTime
+        .parse(releaseDate)
+        .year;
+  }
+
   factory Media(Map jsonMap) {
     return Media.deserialize(jsonMap);
   }
-
 
   Media.deserialize(Map json)
       : id = json["id"].toInt(),

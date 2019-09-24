@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_movie_db/common/HttpHandler.dart';
+import 'package:flutter_movie_db/media_list_item.dart';
 
 import 'model/Media.dart';
 
@@ -30,11 +31,7 @@ class _MediaListState extends State<MediaList> {
       child: ListView.builder(
         itemCount: _media.length,
         itemBuilder: (BuildContext context, int index) {
-          return Column(
-            children: <Widget>[
-              Image.network(_media[index].getPosterUrl()),
-            ],
-          );
+          return MediaListItem(_media[index]);
         },
       ),
     );
