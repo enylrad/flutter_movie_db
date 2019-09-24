@@ -108,7 +108,7 @@ class MediaListItem extends StatelessWidget {
 
   FadeInImage getImageBackground() {
     return FadeInImage.assetNetwork(
-      placeholder: "assets/placeholder.jpg",
+      placeholder: "assets/placeholder.jpeg",
       image: media.getBackDropUrl(),
       fit: BoxFit.cover,
       height: 200.0,

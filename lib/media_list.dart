@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_movie_db/common/MediaProvider.dart';
+import 'package:flutter_movie_db/media_detail.dart';
 import 'package:flutter_movie_db/media_list_item.dart';
 
 import 'model/Media.dart';
@@ -45,7 +47,15 @@ class _MediaListState extends State<MediaList> {
       child: ListView.builder(
         itemCount: _media.length,
         itemBuilder: (BuildContext context, int index) {
-          return MediaListItem(_media[index]);
+          return FlatButton(
+            child: MediaListItem(_media[index]),
+            padding: const EdgeInsets.all(1),
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return MediaDetail(_media[index]);
+              }));
+            },
+          );
         },
       ),
     );
