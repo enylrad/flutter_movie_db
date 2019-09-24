@@ -11,8 +11,22 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final MediaProvider movieProvider = new MovieProvider();
   final MediaProvider showProvider = new ShowProvider();
+  PageController _pageController;
+  int _page = 0;
 
   MediaType mediaType = MediaType.movie;
+
+  @override
+  void initState() {
+    _pageController = PageController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +42,18 @@ class _HomeState extends State<Home> {
       ),
       body: PageView(
         children: _getMediaList(),
+        controller: _pageController,
+        onPageChanged: (int index) {
+          setState(() {
+            _page = index;
+          });
+        },
       ),
       drawer: _getDrawer(context),
       bottomNavigationBar: BottomNavigationBar(
         items: _getFooterItems(),
+        onTap: _navigationTapped,
+        currentIndex: _page,
       ),
     );
   }
@@ -78,11 +100,20 @@ class _HomeState extends State<Home> {
   }
 
   List<BottomNavigationBarItem> _getFooterItems() {
-    return [
+    return mediaType == MediaType.movie
+        ? [
       BottomNavigationBarItem(
           icon: Icon(Icons.thumb_up), title: Text("Populares")),
       BottomNavigationBarItem(
           icon: Icon(Icons.update), title: Text("Próximamente")),
+      BottomNavigationBarItem(
+          icon: Icon(Icons.star), title: Text("Mejor valoradas")),
+    ]
+        : [
+      BottomNavigationBarItem(
+          icon: Icon(Icons.thumb_up), title: Text("Populares")),
+      BottomNavigationBarItem(
+          icon: Icon(Icons.update), title: Text("En el aire")),
       BottomNavigationBarItem(
           icon: Icon(Icons.star), title: Text("Mejor valoradas")),
     ];
@@ -97,12 +128,21 @@ class _HomeState extends State<Home> {
   }
 
   List<Widget> _getMediaList() {
-    return (mediaType == MediaType.movie
+    return (mediaType == MediaType.movie)
         ? <Widget>[
-      MediaList(movieProvider),
+      MediaList(movieProvider, "popular"),
+      MediaList(movieProvider, "upcoming"),
+      MediaList(movieProvider, "top_rated"),
     ]
         : <Widget>[
-      MediaList(showProvider),
-    ]);
+      MediaList(showProvider, "popular"),
+      MediaList(showProvider, "on_the_air"),
+      MediaList(showProvider, "top_rated"),
+    ];
+  }
+
+  void _navigationTapped(int page) {
+    _pageController.animateToPage(page,
+        duration: Duration(milliseconds: 300), curve: Curves.ease);
   }
 }
